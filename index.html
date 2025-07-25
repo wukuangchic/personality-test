@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>简易人格测试</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    .question {
+      display: none;
+    }
+    .question.active {
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      display: none;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>简易人格测试</h1>
+  <div id="quiz">
+    <div class="question active" data-dimension="EI">
+      <p>你更喜欢哪种社交方式？</p>
+      <button onclick="answer('E')">和人一起热闹</button>
+      <button onclick="answer('I')">独处安静</button>
+    </div>
+
+    <div class="question" data-dimension="SN">
+      <p>你更倾向于：</p>
+      <button onclick="answer('S')">注重现实与细节</button>
+      <button onclick="answer('N')">关注想象与可能</button>
+    </div>
+
+    <div class="question" data-dimension="TF">
+      <p>你更依赖：</p>
+      <button onclick="answer('T')">逻辑判断</button>
+      <button onclick="answer('F')">情感感受</button>
+    </div>
+
+    <div class="question" data-dimension="JP">
+      <p>你更喜欢：</p>
+      <button onclick="answer('J')">有计划地生活</button>
+      <button onclick="answer('P')">灵活即兴地生活</button>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    let current = 0;
+    const answers = {
+      E: 0, I: 0,
+      S: 0, N: 0,
+      T: 0, F: 0,
+      J: 0, P: 0
+    };
+
+    function answer(letter) {
+      answers[letter]++;
+      const questions = document.querySelectorAll('.question');
+      questions[current].classList.remove('active');
+      current++;
+      if (current < questions.length) {
+        questions[current].classList.add('active');
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      let result = '';
+      result += answers.E >= answers.I ? 'E' : 'I';
+      result += answers.S >= answers.N ? 'S' : 'N';
+      result += answers.T >= answers.F ? 'T' : 'F';
+      result += answers.J >= answers.P ? 'J' : 'P';
+
+      document.getElementById('quiz').style.display = 'none';
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.innerText = `你的人格类型是：${result}`;
+    }
+  </script>
+
+</body>
+</html>
